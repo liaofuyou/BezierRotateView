@@ -85,7 +85,7 @@ public class BezierRotateView extends View {
 
                 //小球动画
                 animator2 = ValueAnimator.ofInt(0, maxDistance * 8, maxDistance * 8, 0);
-                animator2.setDuration(10000);
+                animator2.setDuration(6000);
                 animator2.setInterpolator(new LinearInterpolator());
                 animator2.setRepeatCount(Integer.MAX_VALUE - 1);
                 animator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
