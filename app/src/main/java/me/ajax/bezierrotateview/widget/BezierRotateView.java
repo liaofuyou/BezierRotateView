@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -36,6 +37,9 @@ public class BezierRotateView extends View {
     int animationValue = (int) (maxDistance * 7.81F);//初始化
 
     Path mPath = new Path();
+
+    ValueAnimator animator1;
+    ValueAnimator animator2;
 
 
     public BezierRotateView(Context context) {
@@ -68,23 +72,23 @@ public class BezierRotateView extends View {
             public void onClick(View v) {
 
                 //旋转动画
-                ValueAnimator animator = ValueAnimator.ofFloat(1, 0);
-                animator.setDuration(5000);
-                animator.setRepeatCount(Integer.MAX_VALUE - 1);
-                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                animator1 = ValueAnimator.ofFloat(1, 0);
+                animator1.setDuration(5000);
+                animator1.setRepeatCount(Integer.MAX_VALUE - 1);
+                animator1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator animation) {
                         degree++;
                     }
                 });
-                animator.start();
+                animator1.start();
 
                 //小球动画
-                animator = ValueAnimator.ofInt(0, maxDistance * 8, maxDistance * 8, 0);
-                animator.setDuration(10000);
-                animator.setInterpolator(new LinearInterpolator());
-                animator.setRepeatCount(Integer.MAX_VALUE - 1);
-                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                animator2 = ValueAnimator.ofInt(0, maxDistance * 8, maxDistance * 8, 0);
+                animator2.setDuration(10000);
+                animator2.setInterpolator(new LinearInterpolator());
+                animator2.setRepeatCount(Integer.MAX_VALUE - 1);
+                animator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator animation) {
                         animationValue = (int) animation.getAnimatedValue();
@@ -95,7 +99,7 @@ public class BezierRotateView extends View {
                         invalidateView();
                     }
                 });
-                animator.start();
+                animator2.start();
             }
         });
     }
@@ -220,7 +224,7 @@ public class BezierRotateView extends View {
             postInvalidate();
         }
     }
-/*
+
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -229,15 +233,12 @@ public class BezierRotateView extends View {
 
     private void stopAnimAndRemoveCallbacks() {
 
-        if (waterDropAnimator != null) waterDropAnimator.end();
-        if (waveAnimator1 != null) waveAnimator1.end();
-        if (waveAnimator2 != null) waveAnimator2.end();
-        if (waveAnimator3 != null) waveAnimator3.end();
+        if (animator1 != null) animator1.end();
+        if (animator2 != null) animator2.end();
 
         Handler handler = this.getHandler();
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
         }
     }
- */
 }
